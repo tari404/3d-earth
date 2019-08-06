@@ -1,6 +1,8 @@
 # 3D Earth Banner
 
-![demo](./demo.jpg)
+A webgl animation instance library.
+
+![demo](https://raw.githubusercontent.com/tari404/3d-earth/master/demo.jpg)
 
 ## How to Start
 
