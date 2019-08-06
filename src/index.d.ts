@@ -8,7 +8,7 @@ declare interface EarthBannerOptions {
 	 * The coordinates of the highlighted point on the Earth model (format: [longitude, latitude, longitude, latitude...]).
    * @example [29.458349, 106.396826, 39.804935, 114.973428, ... ]
 	 */
-  coords: number[]
+  coords?: number[]
 
   /**
    * The rotation speed (deg/frame) of earth model.

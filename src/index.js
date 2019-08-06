@@ -13,6 +13,7 @@ import InstancedPointsMaterial from './lib/InstancedPointsMaterial'
 import Light from './lib/Light'
 
 import Ring from './obj/Ring'
+import newLight from './obj/Light'
 
 import coords from './lib/world-points.json'
 
@@ -35,13 +36,29 @@ export default class Earth {
     this.rotateSpeed = options.rotateSpeed || 0.002
     this.pointFlashSpeed = options.pointFlashSpeed || 1
 
-    this.coords = options.coords
+    this.coords = options.coords || [
+      29.458349, 106.396826,
+      39.804935, 114.973428,
+      22.204878, 45.426417,
+      10.106263, 39.144935,
+      47.397837, 4.803222,
+      41.997906, -1.405880,
+      44.136586, 11.842139,
+      38.935887, 16.504146,
+      44.490049, 27.585049,
+      39.062638, -78.335972,
+      39.897687, -122.714527,
+      9.171568, -66.633754,
+      -15.47, -47.55,
+      -35.15, 149.08,
+      -18.06, 178.30,
+      -6.09, 106.49
+    ]
 
     this.linkAnimations = new Set()
 
     this.o = options
     this.init()
-    this.randomLinkAnimator()
   }
     
   init () {
@@ -69,7 +86,9 @@ export default class Earth {
       color: this.o.pointColor || 0x656e79,
       highlight: this.o.pointHighlight || 0xcbdcf0,
       fog: true,
-      side: DoubleSide
+      side: DoubleSide,
+      depthTest: false,
+      blending: THREE.AdditiveBlending
     })
     const earth = new Mesh(geometry, material)
     earth.rotation.x = 0.4
@@ -98,10 +117,24 @@ export default class Earth {
         radius: this.o.ringRadius,
         width: this.o.ringWidth
       })
+      ring.afterAnimation = () => {
+        this.locks[i / 2] = false
+        this.freePointCoint++
+      }
       rings.push(ring)
       points.push(new Vector3(x, y, z))
       earth.add(ring.mesh)
     }
+
+    const bg = new Mesh(
+      new THREE.OctahedronBufferGeometry(76, 4),
+      new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.05
+      })
+    )
+    scene.add(bg)
 
     this.rings = rings
     this.points = points
@@ -115,6 +148,9 @@ export default class Earth {
     this.scene = scene
     this.renderer = renderer
     this.camera = camera
+
+    this.timer = 0
+    this.interval = 30 + Math.random() * 80
 
     this.onresize = () => {
       const rect = this.parent.getBoundingClientRect()
@@ -138,6 +174,13 @@ export default class Earth {
           this.linkAnimations.delete(animator)
         }
       })
+
+      this.timer++
+      if (++this.timer > this.interval) {
+        this.timer = 0
+        this.interval = 30 + Math.random() * 80
+        this.randomLinkAnimator()
+      }
 
       this.earth.rotation.y += this.rotateSpeed
 
@@ -165,9 +208,6 @@ export default class Earth {
     const i1 = this.getAndLockPoint()
     const i2 = this.getAndLockPoint()
     this.linkAnimations.add(this.linkAnimator(i1, i2))
-    setTimeout(() => {
-      this.randomLinkAnimator()
-    }, 300 + Math.random() * 1000)
   }
 
   *linkAnimator (i, j) {
@@ -177,24 +217,25 @@ export default class Earth {
 
     const curve = new THREE.QuadraticBezierCurve3(p1, pm, p2)
     const lenght = curve.getLength()
-    
+
     const geometryC = new THREE.BufferGeometry().setFromPoints(curve.getPoints(48))
     const materialC = new THREE.LineDashedMaterial({
       color: 0xcbdcf0,
       dashSize: 3,
       gapSize: lenght,
       scale: 6,
-      transparent: true
+      transparent: true,
+      depthTest: false
     })
     const curveObject = new THREE.Line(geometryC, materialC)
     curveObject.computeLineDistances()
-    
+
+    const light = newLight()
+    this.earth.add(light)
+    light.position.set(p1.x, p1.y, p1.z)
+
     this.earth.add(curveObject)
     this.rings[i].animate()
-    setTimeout(() => {
-      this.locks[i] = false
-      this.freePointCoint++
-    }, 800)
     let k = 0.5
     let timer = 0
     while (k < lenght) {
@@ -202,13 +243,14 @@ export default class Earth {
       timer++
       materialC.scale = 3 / k
       materialC.opacity = Math.min(1, (120 - timer) / 60)
+      const j = k / lenght
+      const pos = curve.getPointAt(j)
+      light.position.set(pos.x, pos.y, pos.z)
+      light.material.opacity = 1 - Math.pow((2 * j - 1), 2)
       yield
     }
     this.rings[j].animate()
-    setTimeout(() => {
-      this.locks[j] = false
-      this.freePointCoint++
-    }, 1000)
+    this.earth.remove(light)
     while (timer < 120) {
       timer++
       materialC.opacity = Math.min(1, (120 - timer) / 60)

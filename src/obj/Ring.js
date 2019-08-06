@@ -27,6 +27,8 @@ export default class Ring {
       const { done } = this.animator.next()
       if (!done) {
         requestAnimationFrame(this.update)
+      } else if (typeof this.afterAnimation === 'function') {
+        this.afterAnimation()
       }
     }
   }
