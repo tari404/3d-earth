@@ -1,11 +1,15 @@
 {
   "name": "@tarii/3d-earth",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
     "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tari404/3d-earth.git"
   },
   "dependencies": {
     "@types/three": "^0.103.2",

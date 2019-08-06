@@ -150,7 +150,9 @@ export default class Earth {
     this.camera = camera
 
     this.timer = 0
-    this.interval = 30 + Math.random() * 80
+    this.minLineSpacing = this.o.minLineSpacing || 30
+    this.maxLineSpacing = this.o.maxLineSpacing || 110
+    this.interval = this.minLineSpacing + Math.random() * (this.maxLineSpacing - this.minLineSpacing)
 
     this.onresize = () => {
       const rect = this.parent.getBoundingClientRect()
@@ -178,7 +180,7 @@ export default class Earth {
       this.timer++
       if (++this.timer > this.interval) {
         this.timer = 0
-        this.interval = 30 + Math.random() * 80
+        this.interval = this.minLineSpacing + Math.random() * (this.maxLineSpacing - this.minLineSpacing)
         this.randomLinkAnimator()
       }
 
@@ -230,7 +232,7 @@ export default class Earth {
     const curveObject = new THREE.Line(geometryC, materialC)
     curveObject.computeLineDistances()
 
-    const light = newLight()
+    const light = newLight(this.o.lineHighlightSize || 10)
     this.earth.add(light)
     light.position.set(p1.x, p1.y, p1.z)
 

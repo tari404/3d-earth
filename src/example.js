@@ -7,6 +7,11 @@ const earth = new Earth({
 
   rotateSpeed: 0.002,
 
+  lineHighlightSize: 12,
+
+  minLineSpacing: 30,
+  maxLineSpacing: 110,
+
   coords: [
     29.458349, 106.396826,
     39.804935, 114.973428,

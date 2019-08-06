@@ -14,6 +14,7 @@ const material = new THREE.PointsMaterial({
   color: 0xffffff
 })
 
-export default function newLight () {
+export default function newLight (size) {
+  material.size = size
   return new THREE.Points(geometry, material.clone())
 }

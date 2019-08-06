@@ -11,6 +11,24 @@ declare interface EarthBannerOptions {
   coords?: number[]
 
   /**
+   * The radius of connecting line animation highlights.
+   * @default 10
+   */
+  lineHighlightSize?: number
+
+  /**
+   * Minimum interval (frame) between two line animations.
+   * @default 30
+   */
+  minLineSpacing?: number
+
+  /**
+   * Maximum interval (frame) between two line animations.
+   * @default 110
+   */
+  maxLineSpacing?: number
+
+  /**
    * The rotation speed (deg/frame) of earth model.
    * @default 0.002
    */
