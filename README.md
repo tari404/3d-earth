@@ -1,29 +1,27 @@
-# earth
+# 3D Earth Banner
 
-## Project setup
-```
-npm install
-```
+![demo](./demo.jpg)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## How to Start
 
-### Compiles and minifies for production
-```
-npm run build
+install by npm:
+
+```shell
+$ npm install @tarii/3d-earth --save
 ```
 
-### Run your tests
-```
-npm run test
+use
+
+```javascript
+import Earth from '@tarii/3d-earth'
+
+const parent = document.querySelector('#box')
+const earth = new Earth({
+  parent,
+  coords: [29.458349, 106.396826]
+})
+
+earth.start()
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+> For more information on input parameters, please refer to `src/index.d.ts`.

@@ -1,46 +1,28 @@
 {
-  "name": "earth",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@tarii/3d-earth",
+  "private": false,
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./src/index.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "webpack"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "@types/three": "^0.103.2",
+    "three": "^0.107.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/cli-plugin-eslint": "^3.10.0",
-    "@vue/cli-service": "^3.10.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "@types/eslint": "^4.16.6",
+    "eslint": "^6.1.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-loader": "^2.2.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "raw-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  }
 }
