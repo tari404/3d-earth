@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@types/three": "^0.103.2",
-    "three": "^0.107.0"
+    "three": "^0.125.0"
   },
   "devDependencies": {
     "@types/eslint": "^4.16.6",
